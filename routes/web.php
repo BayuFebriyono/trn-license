@@ -35,6 +35,7 @@ Route::get('/dashboard-renewal/list/{license}', [RenewalDashboardController::cla
 // Grafik dan Dashboard
 Route::get('/dashboard-renewal/dashboard',[RenewalDashboardController::class , 'dashboard']);
 Route::get('/dashboard-renewal/dashboard/closed/{bulan}',[RenewalDashboardController::class,'deptClosed']);
+Route::get('/dashboard-renewal/dashboard/progress/{bulan}',[RenewalDashboardController::class,'deptProgress']);
 
 Route::middleware('auth')->group(function () {
     // Admin Area
@@ -70,46 +71,5 @@ Route::get('/hash/{text}', function ($text) {
 });
 
 Route::get('/tes2', function () {
-    $bulan = 7;
-
-        $employe = Employe::where('month_expired', $bulan)->with('license')->get();
-        $employe = $employe->groupBy('line');
-
-       
-        $array_line = [];
-        foreach($employe as $e){
-            foreach($e as $a){
-                $lcn = collect($a->license);
-                $jml_ok = $a->license->count();
-                $ok = 0;
-                foreach($lcn as $l){
-                    
-                    if($l->tanggal_tes){
-                        $ok++;
-                    }
-                }
-
-                if($jml_ok == $ok){
-                   
-                    $ary = [
-                        'line' => $a->line,
-                        'count' => 1
-                    ];
-                    array_push($array_line,$ary);
-                }
-                
-            }
-            
-        }
-        $array_line = collect($array_line);
-        $array_line = $array_line->groupBy('line');
-        $keys =  $array_line->keys();
-        $i = 0;
-        foreach($array_line as $line){
-           
-            
-            echo  $line->count() .' '. $keys[$i]. '<br>';
-            $i++;
-        }
-
+    
 });

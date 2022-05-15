@@ -107,7 +107,7 @@
                     <h3 id="PesertaProgress">{{ $progress->count() }}</h3>
                     <p>Total Peserta Renewal License Progress</p>
                     <p>
-                        <a href="#" id="btn-progress"><u>Detail</u></a>
+                        <a href="#" id="btn_progress"><u>Detail</u></a>
                     </p>
                 </div>
             </div>
@@ -260,6 +260,12 @@
 
             $('#btn_closed').on('click', function(){
                 let link = "{{ url('/dashboard-renewal/dashboard/closed') }}" + "/" + bulan;
+
+                window.location.href = link;
+            });
+
+            $('#btn_progress').on('click', function(){
+                let link = "{{ url('/dashboard-renewal/dashboard/progress') }}" + "/" + bulan;
 
                 window.location.href = link;
             });

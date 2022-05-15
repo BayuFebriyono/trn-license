@@ -126,7 +126,7 @@ class RenewalDashboardController extends Controller
     }
 
     //Grafik Closed
-    public function deptClosed(Request $request, $bulan){
+    public function deptClosed($bulan){
         
 
         $employe = Employe::where('month_expired', $bulan)->with('license')->get();
@@ -163,6 +163,47 @@ class RenewalDashboardController extends Controller
         $keys =  $array_line->keys();
 
         return view('renewal.chart.closed',[
+            'line' => $keys,
+            'obj_line' => $array_line
+        ]);
+    }
+
+    // Grafik Progress
+    public function deptProgress($bulan){
+        $employe = Employe::where('month_expired', $bulan)->with('license')->get();
+        $employe = $employe->groupBy('line');
+
+       
+        $array_line = [];
+        foreach($employe as $e){
+            foreach($e as $a){
+                $lcn = collect($a->license);
+                $jml_ok = $a->license->count();
+                $ok = 0;
+                foreach($lcn as $l){
+                    
+                    if($l->tanggal_tes){
+                        $ok++;
+                    }
+                }
+
+                if($jml_ok != $ok){
+                   
+                    $ary = [
+                        'line' => $a->line,
+                        'count' => 1
+                    ];
+                    array_push($array_line,$ary);
+                }
+                
+            }
+            
+        }
+        $array_line = collect($array_line);
+        $array_line = $array_line->sortBy('line')->groupBy('line');
+        $keys =  $array_line->keys();
+
+        return view('renewal.chart.progress',[
             'line' => $keys,
             'obj_line' => $array_line
         ]);

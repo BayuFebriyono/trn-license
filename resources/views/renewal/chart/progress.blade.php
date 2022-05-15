@@ -27,7 +27,7 @@
         }
 
         .course-preview {
-            background-color: #2A265F;
+            background-color: #fd9012;
             color: #fff;
             padding: 30px;
             max-width: 250px;
@@ -185,7 +185,7 @@
         .social-panel ul li a {
             border: 1px solid #DCE1F2;
             border-radius: 50%;
-            color: #001F61;
+            color: #ffee04;
             font-size: 20px;
             display: flex;
             justify-content: center;
@@ -257,7 +257,7 @@
 
     </style>
 
-    <h4 class="mb-4">Renewal license closed per Dept/Line</h4>
+    <h4 class="mb-4">Renewal license progress per Dept/Line</h4>
     @if ($obj_line->count())
         <div class="row">
             @php
