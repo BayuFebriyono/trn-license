@@ -36,6 +36,8 @@ Route::get('/dashboard-renewal/list/{license}', [RenewalDashboardController::cla
 Route::get('/dashboard-renewal/dashboard',[RenewalDashboardController::class , 'dashboard']);
 Route::get('/dashboard-renewal/dashboard/closed/{bulan}',[RenewalDashboardController::class,'deptClosed']);
 Route::get('/dashboard-renewal/dashboard/progress/{bulan}',[RenewalDashboardController::class,'deptProgress']);
+Route::get('/dashboard-renewal/dashboard/progress/{bulan}/{line}',[RenewalDashboardController::class,'detailDeptProgress']);
+Route::get('/dashboard-renewal/dashboard/closed/{bulan}/{line}',[RenewalDashboardController::class,'detailDeptClosed']);
 
 Route::middleware('auth')->group(function () {
     // Admin Area
@@ -63,36 +65,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/api/dashboard/get',[RenewalDashboardController::class,'dashApi'])->name('dashboard');
 
 Route::get('/tes', function () {
-  $bulan =7;
-
-  $employe = Employe::where('month_expired', $bulan)->where('line','G09 CV.17A 602W')->with('license')->get();
-        $employe = $employe->groupBy('line');
-
-       
-        $array_line = [];
-        foreach($employe as $e){
-            foreach($e as $a){
-                $lcn = collect($a->license);
-                $jml_ok = $a->license->count();
-                $ok = 0;
-                foreach($lcn as $l){
-                    
-                    if($l->tanggal_tes){
-                        $ok++;
-                    }
-                }
-
-                if($jml_ok == $ok){
-                   
-                  
-                    array_push($array_line,$a->toArray());
-                }
-                
-            }
-            
-        }
-        $array_line = collect($array_line);
-       return $array_line;
         
 
 });

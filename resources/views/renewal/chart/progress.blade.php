@@ -281,7 +281,7 @@
           </div> --}}
                                 <h6>Dept/Sect</h6>
                                 <h5>{{ $line[$i] }}</h5>
-                               <a href="">Detail</a>
+                               <a href="{{ url('/dashboard-renewal/dashboard/progress/' . $bulan . '/' . $line[$i]) }}">Detail</a>
                             </div>
                         </div>
                     </div>

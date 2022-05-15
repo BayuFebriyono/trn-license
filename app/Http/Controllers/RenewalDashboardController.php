@@ -125,6 +125,82 @@ class RenewalDashboardController extends Controller
             return $data;
     }
 
+    public function detailDeptClosed($bulan,$line){
+        $employe = Employe::where('month_expired', $bulan)->where('line',$line)->with('license')->get();
+        $employe = $employe->groupBy('line');
+
+        // return $employe;
+       
+        $array_line = [];
+        foreach($employe as $e){
+            foreach($e as $a){
+                $lcn = collect($a->license);
+                $jml_ok = $a->license->count();
+                $ok = 0;
+                foreach($lcn as $l){
+                    
+                    if($l->tanggal_tes){
+                        $ok++;
+                    }
+                }
+
+                if($jml_ok == $ok){
+                    array_push($array_line,$a->toArray());
+                }
+                
+            }
+            
+        }
+        $array_line = collect($array_line)->map(function ($voucher) {
+            return (object) array_merge($voucher, [
+                'license' => collect($voucher['license'])
+            ]);
+        });
+        
+        // return($array_line);
+       return view('renewal.chart.detail',[
+           'array_line' => $array_line
+       ]);
+    }
+
+    public function detailDeptProgress($bulan,$line){
+        $employe = Employe::where('month_expired', $bulan)->where('line',$line)->with('license')->get();
+        $employe = $employe->groupBy('line');
+
+        // return $employe;
+       
+        $array_line = [];
+        foreach($employe as $e){
+            foreach($e as $a){
+                $lcn = collect($a->license);
+                $jml_ok = $a->license->count();
+                $ok = 0;
+                foreach($lcn as $l){
+                    
+                    if($l->tanggal_tes){
+                        $ok++;
+                    }
+                }
+
+                if($jml_ok != $ok){
+                    array_push($array_line,$a->toArray());
+                }
+                
+            }
+            
+        }
+        $array_line = collect($array_line)->map(function ($voucher) {
+            return (object) array_merge($voucher, [
+                'license' => collect($voucher['license'])
+            ]);
+        });
+        
+        // return($array_line);
+       return view('renewal.chart.detail',[
+           'array_line' => $array_line
+       ]);
+    }
+
     //Grafik Closed
     public function deptClosed($bulan){
         
@@ -164,7 +240,8 @@ class RenewalDashboardController extends Controller
 
         return view('renewal.chart.closed',[
             'line' => $keys,
-            'obj_line' => $array_line
+            'obj_line' => $array_line,
+            'bulan' => $bulan
         ]);
     }
 
@@ -205,7 +282,8 @@ class RenewalDashboardController extends Controller
 
         return view('renewal.chart.progress',[
             'line' => $keys,
-            'obj_line' => $array_line
+            'obj_line' => $array_line,
+            'bulan' => $bulan
         ]);
     }
 

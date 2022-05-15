@@ -26,6 +26,7 @@
                         </thead>
                         <tbody>
                             @foreach ($peserta as $p)
+                           
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $p->nik }}</td>
