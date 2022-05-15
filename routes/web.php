@@ -63,7 +63,38 @@ Route::middleware('auth')->group(function () {
 Route::get('/api/dashboard/get',[RenewalDashboardController::class,'dashApi'])->name('dashboard');
 
 Route::get('/tes', function () {
-   return view('renewal.chart.closed');
+  $bulan =7;
+
+  $employe = Employe::where('month_expired', $bulan)->where('line','G09 CV.17A 602W')->with('license')->get();
+        $employe = $employe->groupBy('line');
+
+       
+        $array_line = [];
+        foreach($employe as $e){
+            foreach($e as $a){
+                $lcn = collect($a->license);
+                $jml_ok = $a->license->count();
+                $ok = 0;
+                foreach($lcn as $l){
+                    
+                    if($l->tanggal_tes){
+                        $ok++;
+                    }
+                }
+
+                if($jml_ok == $ok){
+                   
+                  
+                    array_push($array_line,$a->toArray());
+                }
+                
+            }
+            
+        }
+        $array_line = collect($array_line);
+       return $array_line;
+        
+
 });
 
 Route::get('/hash/{text}', function ($text) {
