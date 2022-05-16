@@ -29,6 +29,13 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item {{ Request::is('dashboard-renewal/forecast*') ? 'active' : '' }}">
+                    <a href="{{ url('/dashboard-renewal/forecast') }}" class='sidebar-link disabled'>
+                        <i class="bi bi-info-square-fill"></i>
+                        <span>Forecast (Memo)</span>
+                    </a>
+                </li>
+
                 @auth
                 <li class="sidebar-title">Admin Menu</li>
 

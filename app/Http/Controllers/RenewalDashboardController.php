@@ -20,6 +20,14 @@ class RenewalDashboardController extends Controller
         ]);
     }
 
+    // List Peserta Filter bulan
+    public function listMonth($bulan){
+        
+        return view('renewal.peserta.list',[
+            'peserta' => Employe::with('license')->where('month_expired',$bulan)->get()->sortBy('nik')
+        ]);
+    }
+
 
 
     public function licenseDetail($license)

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RenewalDashboardController;
+use App\Http\Controllers\RenewalForecast;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,11 @@ Route::get('/dashboard-renewal/dashboard/closed/{bulan}',[RenewalDashboardContro
 Route::get('/dashboard-renewal/dashboard/progress/{bulan}',[RenewalDashboardController::class,'deptProgress']);
 Route::get('/dashboard-renewal/dashboard/progress/{bulan}/{line}',[RenewalDashboardController::class,'detailDeptProgress']);
 Route::get('/dashboard-renewal/dashboard/closed/{bulan}/{line}',[RenewalDashboardController::class,'detailDeptClosed']);
+Route::get('/dashboard-renewal/dashboard/list/{bulan}',[RenewalDashboardController::class,'listMonth']);
+
+
+// Forecast
+Route::get('/dashboard-renewal/forecast',[RenewalForecast::class,'index']);
 
 Route::middleware('auth')->group(function () {
     // Admin Area

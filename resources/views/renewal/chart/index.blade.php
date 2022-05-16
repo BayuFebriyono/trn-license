@@ -116,7 +116,7 @@
                     <h3 id="Peserta">0</h3>
                     <p >Total Peserta Renewal License</p>
                     <p>
-                        <a href=""><u>Detail</u></a>
+                        <a href="#" id="btn_peserta"><u>Detail</u></a>
                     </p>
                 </div>
             </div>
@@ -141,7 +141,7 @@
 
         {{-- Cart --}}
         <div class="row mt-5">
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
@@ -155,11 +155,11 @@
                 </div>
 
             </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <h4 class="card-title">Summary License Closed</h4>
+                            <h6 class="card-title">Summary License Closed</h6>
                             <p>
                                 <canvas id="myChart"></canvas>
                             </p>
@@ -260,6 +260,11 @@
 
             $('#btn_closed').on('click', function(){
                 let link = "{{ url('/dashboard-renewal/dashboard/closed') }}" + "/" + bulan;
+
+                window.location.href = link;
+            });
+            $('#btn_peserta').on('click', function(){
+                let link = "{{ url('/dashboard-renewal/dashboard/list') }}" + "/" + bulan;
 
                 window.location.href = link;
             });
