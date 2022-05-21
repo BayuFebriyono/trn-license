@@ -21,10 +21,11 @@ class RenewalDashboardController extends Controller
     }
 
     // List Peserta Filter bulan
-    public function listMonth($bulan){
-        
-        return view('renewal.peserta.list',[
-            'peserta' => Employe::with('license')->where('month_expired',$bulan)->get()->sortBy('nik')
+    public function listMonth($bulan)
+    {
+
+        return view('renewal.peserta.list', [
+            'peserta' => Employe::with('license')->where('month_expired', $bulan)->get()->sortBy('nik')
         ]);
     }
 
@@ -75,7 +76,7 @@ class RenewalDashboardController extends Controller
             ->orderBy('date')
             ->groupBy('date')
             ->get();
-            
+
 
 
 
@@ -87,15 +88,16 @@ class RenewalDashboardController extends Controller
         ]);
     }
 
-    public function dashApi($bulan = null,Request $request){
+    public function dashApi($bulan = null, Request $request)
+    {
 
-        if($request->bulan){
+        if ($request->bulan) {
             $bulan = $request->bulan;
             // dd('hh');
         }
 
 
-        if(is_null($bulan)){
+        if (is_null($bulan)) {
             $bulan = 1;
         }
 
@@ -109,144 +111,141 @@ class RenewalDashboardController extends Controller
         //Line chart
         $lcn = DB::table('licenses')
             ->select(DB::raw('DATE(tanggal_tes) as date'), DB::raw('count(*) as jumlah'))
-            ->where('month_expired',$bulan)
+            ->where('month_expired', $bulan)
             ->whereNotNull('tanggal_tes')
             ->orderBy('date')
             ->groupBy('date')
             ->get();
 
-            $jumlah = $lcn->pluck('jumlah');
-            $date = $lcn->pluck('date');
+        $jumlah = $lcn->pluck('jumlah');
+        $date = $lcn->pluck('date');
 
-            $lcn_progress = License::Where('month_expired',$bulan)->WhereNull('tanggal_tes')->count();
-            $lcn_closed = License::Where('month_expired',$bulan)->WhereNotNull('tanggal_tes')->count();
+        $lcn_progress = License::Where('month_expired', $bulan)->WhereNull('tanggal_tes')->count();
+        $lcn_closed = License::Where('month_expired', $bulan)->WhereNotNull('tanggal_tes')->count();
 
-            $data = [
-                'peserta' => $peserta,
-                'lcn_jumlah' => $jumlah,
-                'lcn_date' => $date,
-                'closed' => [$progress->count(),$ok],
-                'lcn_progress' => $lcn_progress,
-                'lcn_closed' => $lcn_closed
-            ];
+        $data = [
+            'peserta' => $peserta,
+            'lcn_jumlah' => $jumlah,
+            'lcn_date' => $date,
+            'closed' => [$progress->count(), $ok],
+            'lcn_progress' => $lcn_progress,
+            'lcn_closed' => $lcn_closed
+        ];
 
-            return $data;
+        return $data;
     }
 
-    public function detailDeptClosed($bulan,$line){
-        $employe = Employe::where('month_expired', $bulan)->where('line',$line)->with('license')->get();
+    public function detailDeptClosed($bulan, $line)
+    {
+        $employe = Employe::where('month_expired', $bulan)->where('line', $line)->with('license')->get();
         $employe = $employe->groupBy('line');
 
         // return $employe;
-       
+
         $array_line = [];
-        foreach($employe as $e){
-            foreach($e as $a){
+        foreach ($employe as $e) {
+            foreach ($e as $a) {
                 $lcn = collect($a->license);
                 $jml_ok = $a->license->count();
                 $ok = 0;
-                foreach($lcn as $l){
-                    
-                    if($l->tanggal_tes){
+                foreach ($lcn as $l) {
+
+                    if ($l->tanggal_tes) {
                         $ok++;
                     }
                 }
 
-                if($jml_ok == $ok){
-                    array_push($array_line,$a->toArray());
+                if ($jml_ok == $ok) {
+                    array_push($array_line, $a->toArray());
                 }
-                
             }
-            
         }
         $array_line = collect($array_line)->map(function ($voucher) {
             return (object) array_merge($voucher, [
                 'license' => collect($voucher['license'])
             ]);
         });
-        
+
         // return($array_line);
-       return view('renewal.chart.detail',[
-           'array_line' => $array_line
-       ]);
+        return view('renewal.chart.detail', [
+            'array_line' => $array_line
+        ]);
     }
 
-    public function detailDeptProgress($bulan,$line){
-        $employe = Employe::where('month_expired', $bulan)->where('line',$line)->with('license')->get();
+    public function detailDeptProgress($bulan, $line)
+    {
+        $employe = Employe::where('month_expired', $bulan)->where('line', $line)->with('license')->get();
         $employe = $employe->groupBy('line');
 
         // return $employe;
-       
+
         $array_line = [];
-        foreach($employe as $e){
-            foreach($e as $a){
+        foreach ($employe as $e) {
+            foreach ($e as $a) {
                 $lcn = collect($a->license);
                 $jml_ok = $a->license->count();
                 $ok = 0;
-                foreach($lcn as $l){
-                    
-                    if($l->tanggal_tes){
+                foreach ($lcn as $l) {
+
+                    if ($l->tanggal_tes) {
                         $ok++;
                     }
                 }
 
-                if($jml_ok != $ok){
-                    array_push($array_line,$a->toArray());
+                if ($jml_ok != $ok) {
+                    array_push($array_line, $a->toArray());
                 }
-                
             }
-            
         }
         $array_line = collect($array_line)->map(function ($voucher) {
             return (object) array_merge($voucher, [
                 'license' => collect($voucher['license'])
             ]);
         });
-        
+
         // return($array_line);
-       return view('renewal.chart.detail',[
-           'array_line' => $array_line
-       ]);
+        return view('renewal.chart.detail', [
+            'array_line' => $array_line
+        ]);
     }
 
     //Grafik Closed
-    public function deptClosed($bulan){
-        
+    public function deptClosed($bulan)
+    {
+
 
         $employe = Employe::where('month_expired', $bulan)->with('license')->get();
         $employe = $employe->groupBy('line');
 
-       
+
         $array_line = [];
-        foreach($employe as $e){
-            foreach($e as $a){
+        foreach ($employe as $e) {
+            foreach ($e as $a) {
                 $lcn = collect($a->license);
                 $jml_ok = $a->license->count();
                 $ok = 0;
-                foreach($lcn as $l){
-                    
-                    if($l->tanggal_tes){
+                foreach ($lcn as $l) {
+
+                    if ($l->tanggal_tes) {
                         $ok++;
                     }
                 }
 
-                if($jml_ok == $ok){
-                   
+                if ($jml_ok == $ok) {
+
                     $ary = [
                         'line' => $a->line,
                         'count' => 1
                     ];
-                    array_push($array_line,$ary);
+                    array_push($array_line, $ary);
                 }
-                
             }
-            
         }
         $array_line = collect($array_line);
         $array_line = $array_line->sortBy('line')->groupBy('line');
         $keys =  $array_line->keys();
 
-        return view('renewal.chart.closed',[
+        return view('renewal.chart.closed', [
             'line' => $keys,
             'obj_line' => $array_line,
             'bulan' => $bulan
@@ -254,41 +253,40 @@ class RenewalDashboardController extends Controller
     }
 
     // Grafik Progress
-    public function deptProgress($bulan){
+    public function deptProgress($bulan)
+    {
         $employe = Employe::where('month_expired', $bulan)->with('license')->get();
         $employe = $employe->groupBy('line');
 
-       
+
         $array_line = [];
-        foreach($employe as $e){
-            foreach($e as $a){
+        foreach ($employe as $e) {
+            foreach ($e as $a) {
                 $lcn = collect($a->license);
                 $jml_ok = $a->license->count();
                 $ok = 0;
-                foreach($lcn as $l){
-                    
-                    if($l->tanggal_tes){
+                foreach ($lcn as $l) {
+
+                    if ($l->tanggal_tes) {
                         $ok++;
                     }
                 }
 
-                if($jml_ok != $ok){
-                   
+                if ($jml_ok != $ok) {
+
                     $ary = [
                         'line' => $a->line,
                         'count' => 1
                     ];
-                    array_push($array_line,$ary);
+                    array_push($array_line, $ary);
                 }
-                
             }
-            
         }
         $array_line = collect($array_line);
         $array_line = $array_line->sortBy('line')->groupBy('line');
         $keys =  $array_line->keys();
 
-        return view('renewal.chart.progress',[
+        return view('renewal.chart.progress', [
             'line' => $keys,
             'obj_line' => $array_line,
             'bulan' => $bulan
@@ -423,7 +421,7 @@ class RenewalDashboardController extends Controller
 
     public function prosesExport(Request $request)
     {
-        $employe = Employe::where('month_expired', $request->bulan)->get()->sortBy('nik');
+        $employe = Employe::with('license')->where('month_expired', $request->bulan)->get()->sortBy('nik');
         // return $employe->count();
 
         $spreadsheet = new Spreadsheet();
@@ -563,19 +561,16 @@ class RenewalDashboardController extends Controller
                 if ($license[$j]->license == 'IL2' && $license[$j]->tanggal_tes) {
                     $sheet->setCellValue('AA' . $row, $license[$j]->license);
                     $il2 = true;
-                    if ($index_cell != 0) {
-                        $index_cell--;
-                    }
+                   
                 } else if (is_null($license[$j]->tanggal_tes)) {
-                    if ($index_cell != 0) {
-                        $index_cell--;
-                    }
+                    
                     continue;
                 } else {
                     $sheet->setCellValue($cell[$index_cell] . $row, $license[$j]->license);
                     $counter++;
+                    $index_cell++;
                 }
-                $index_cell++;
+               
 
                 // Perubahan Untuk 2 Baris Mulai Disini
                 if ($counter >= 24) {
@@ -614,42 +609,51 @@ class RenewalDashboardController extends Controller
             // PHPExcel_Style_NumberFormat::FORMAT_TEXT
 
             // Membuat Baris Baru License > 24
-            if ($counter >= 23) {
+            if ($counter >= 24 && $license->count() > 24) {
                 $row++;
                 $index_cell = 0;
-                $sheet->setCellValue('A' . $row, $e->nik . '.');
-                // Khusus untuk NIK.  set type kolom nya jadi 
-                $sheet->getStyle('A' . $row)->getNumberFormat()
-                    ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
-                $sheet->setCellValueExplicit('A' . $row, $e->nik . '.', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-                $sheet->setCellValue('B' . $row, $e->nama);
+                $counter2 = 0;
 
-                for ($j = 25; $j < $license->count(); $j++) {
+                for ($j = 24; $j < $license->count(); $j++) {
                     if (($license[$j]->license == 'IL2' && $license[$j]->tanggal_tes)) {
-                        $in = $row - 1;
-                        $sheet->setCellValue('AA' . $in, $license[$j]->license);
-                        $sheet->setCellValue('AA' . $row, $license[$j]->license);
-                        if ($index_cell != 0) {
-                            $index_cell--;
-                        }
+                        $il2 = true;
                     } else if (is_null($license[$j]->tanggal_tes)) {
-                        if ($index_cell != 0) {
-                            $index_cell--;
-                        }
+                        
                         continue;
                     } else {
                         $sheet->setCellValue($cell[$index_cell] . $row, $license[$j]->license);
+                        $counter2++;
+                        $index_cell++;
                     }
 
 
-                    $index_cell++;
+                   
                 }
-                if ($il2) {
-                    $in = $row - 1;
-                    $sheet->setCellValue('AA' . $in, 'IL2');
-                    $sheet->setCellValue('AA' . $row, 'IL2');
+                if ($counter2) {
+                    $sheet->setCellValue('A' . $row, $e->nik . '.');
+                    // Khusus untuk NIK.  set type kolom nya jadi 
+                    $sheet->getStyle('A' . $row)->getNumberFormat()
+                        ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
+                    $sheet->setCellValueExplicit('A' . $row, $e->nik . '.', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                    $sheet->setCellValue('B' . $row, $e->nama);
+
+
+                    if ($il2) {
+                        $in = $row - 1;
+                        $sheet->setCellValue('AA' . $in, 'IL2');
+                        $sheet->setCellValue('AA' . $row, 'IL2');
+                    }
+                }else{
+                    if($il2){
+                        $in = $row - 1;
+                        $sheet->setCellValue('AA' . $in, 'IL2');
+                    }
+
+                    $row -= 1;
                 }
             }
+
+
 
             $sheet->getStyle('A' . $row)->applyFromArray($style_row);
             $sheet->getStyle('B' . $row)->applyFromArray($style_row);

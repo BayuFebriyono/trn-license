@@ -8,9 +8,14 @@ use Illuminate\Http\Request;
 class RenewalForecast extends Controller
 {
     
-    public function index(){
 
-        $bulan =7;
+    public function awal(){
+        return view('renewal.forecast.awal');
+    }
+
+    public function index(Request $request){
+
+        $bulan =$request->bulan;
 
 
         $employe = Employe::where('month_expired', $bulan)->with('license')->get();
@@ -72,10 +77,15 @@ class RenewalForecast extends Controller
             'bulan' => $bulan,
             'status' => collect($status)
         ]);
+    }
 
+    public function detail($bulan,$line){
+        $employe = Employe::with('license')->where('month_expired', $bulan)->where('line',$line)->get();
 
+        return view('renewal.forecast.list',[
+            'peserta' => $employe
+        ]);
 
-        return view('');
     }
 
 }

@@ -43,7 +43,9 @@ Route::get('/dashboard-renewal/dashboard/list/{bulan}',[RenewalDashboardControll
 
 
 // Forecast
-Route::get('/dashboard-renewal/forecast',[RenewalForecast::class,'index']);
+Route::post('/dashboard-renewal/forecast',[RenewalForecast::class,'index']);
+Route::get('/dashboard-renewal/forecast/awal',[RenewalForecast::class,'awal']);
+Route::get('/dashboard-renewal/forecast/detail/{bulan}/{line}',[RenewalForecast::class,'detail']);
 
 Route::middleware('auth')->group(function () {
     // Admin Area
@@ -71,7 +73,14 @@ Route::middleware('auth')->group(function () {
 Route::get('/api/dashboard/get',[RenewalDashboardController::class,'dashApi'])->name('dashboard');
 
 Route::get('/tes', function () {
-        
+$employe = Employe::with('license')->get();
+
+$filtered = $employe->filter(function ($value, $key) {
+    return !preg_match('~[0-9]+~', $value->line);
+});
+
+
+    return $filtered;
 
 });
 

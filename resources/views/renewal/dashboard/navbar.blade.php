@@ -30,7 +30,7 @@
                 </li>
 
                 <li class="sidebar-item {{ Request::is('dashboard-renewal/forecast*') ? 'active' : '' }}">
-                    <a href="{{ url('/dashboard-renewal/forecast') }}" class='sidebar-link disabled'>
+                    <a href="{{ url('/dashboard-renewal/forecast/awal') }}" class='sidebar-link disabled'>
                         <i class="bi bi-info-square-fill"></i>
                         <span>Forecast (Memo)</span>
                     </a>

@@ -29,35 +29,35 @@
         }
 
         .card-1 {
-            background-image: url('/img/gallery/thumbs-up.png');
+            background-image: url('{{ asset("/img/gallery/thumbs-up.png") }}');
             background-repeat: no-repeat;
             background-position: right;
             background-size: 80px;
         }
 
         .card-2 {
-            background-image: url('/img/gallery/work-in-progress.png');
+            background-image: url('{{ asset("/img/gallery/work-in-progress.png") }}');
             background-repeat: no-repeat;
             background-position: right;
             background-size: 80px;
         }
 
         .card-3 {
-            background-image: url('/img/gallery/all.png');
+            background-image: url('{{ asset("/img/gallery/all.png") }}');
             background-repeat: no-repeat;
             background-position: right;
             background-size: 80px;
         }
 
         .card-4 {
-            background-image: url('/img/gallery/verified.png');
+            background-image: url('{{ asset("/img/gallery/verified.png") }}');
             background-repeat: no-repeat;
             background-position: right;
             background-size: 80px;
         }
 
         .card-5 {
-            background-image: url('/img/gallery/task.png');
+            background-image: url('{{ asset("/img/gallery/task.png") }}');
             background-repeat: no-repeat;
             background-position: right;
             background-size: 80px;

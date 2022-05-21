@@ -226,6 +226,7 @@
         }
 
     </style>
+    <h3>List Renewal Expired {{ date('F', mktime(0, 0, 0, $bulan, 10)) }}</h3>
 
     @if ($obj_line->count())
         <div class="row">
@@ -250,7 +251,7 @@
                                         aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <p class="text-muted">{{ $status[$i]['closed'] }}/{{ $obj->count() }}</p>
-                                <a href="">Detail</a>
+                                <a href="{{ url('/dashboard-renewal/forecast/detail/'.$bulan. '/' . $line[$i]) }}">Detail</a>
 
 
                             </div>
