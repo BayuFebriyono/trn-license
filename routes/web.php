@@ -76,6 +76,8 @@ Route::get('/tes', function () {
 $employe = Employe::with('license')->get();
 
 $filtered = $employe->filter(function ($value, $key) {
+
+    
     return !preg_match('~[0-9]+~', $value->line);
 });
 
