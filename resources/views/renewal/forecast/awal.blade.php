@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-            <form action="{{ url('/dashboard-renewal/forecast') }}" method="POST">
+            <form action="{{ url('/dashboard-renewal/forecast/dept/cek') }}" method="POST">
                 @csrf
                 <select name="bulan" id="month" class="form-select">
                     <option value="1">Janurari</option>

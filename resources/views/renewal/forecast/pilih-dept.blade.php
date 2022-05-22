@@ -48,37 +48,7 @@
             width: 100%;
         }
 
-        .progress-container {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            text-align: right;
-            width: 150px;
-        }
 
-        .progress {
-            background-color: #ddd;
-            border-radius: 3px;
-            height: 5px;
-            width: 100%;
-        }
-
-        .progress::after {
-            border-radius: 3px;
-            background-color: #2A265F;
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 5px;
-            width: 66%;
-        }
-
-        .progress-text {
-            font-size: 10px;
-            opacity: 0.6;
-            letter-spacing: 1px;
-        }
 
         .btn {
             background-color: #2A265F;
@@ -256,44 +226,63 @@
         }
 
     </style>
+    <h3>Pilih Departemen</h3>
 
-    <h4 class="mb-4">Renewal license closed per Dept/Line</h4>
-    @if ($obj_line->count())
         <div class="row">
-            @php
-                $i = 0;
-            @endphp
-            @foreach ($obj_line as $obj)
                 <div class="col-md-4">
                     <div class="courses-container">
                         <div class="course">
                             <div class="course-preview">
                                 <h6 class="text-white">Total</h6>
-                                <h2 class="text-white">{{ $obj->count() }}</h2>
-                                {{-- <a href="#">View all chapters <i class="fas fa-chevron-right"></i></a> --}}
+                                <h2 class="text-white">{{ $produksi }}</h2>
                             </div>
                             <div class="course-info">
-                                {{-- <div class="progress-container">
-              <div class="progress"></div>
-              <span class="progress-text">
-                  9/9 Challenges
-              </span>
-          </div> --}}
                                 <h6>Dept/Sect</h6>
-                                <h5>{{ $line[$i] }}</h5>
-                                <a
-                                    href="{{ url('/dashboard-renewal/dashboard/closed/' . $bulan . '/' . $line[$i]) }}">Detail</a>
+                                <h5>Production</h5>
+
+
+                                {{-- <div class="progress progress-success">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ $status[$i]['closed']/$obj->count() * 100 }}%" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div> --}}
+                                {{-- <p class="text-muted">{{ $status[$i]['closed'] }}/{{ $obj->count() }}</p> --}}
+                                <a href="{{ url('/dashboard-renewal/forecast/'. $bulan .'/prod') }}">Detail</a>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
-                @php
-                    $i++;
-                @endphp
-            @endforeach
 
+                <div class="col-md-4">
+                    <div class="courses-container">
+                        <div class="course">
+                            <div class="course-preview">
+                                <h6 class="text-white">Total</h6>
+                                <h2 class="text-white">{{ $supporting }}</h2>
+                            </div>
+                            <div class="course-info">
+                                <h6>Dept/Sect</h6>
+                                <h5>Supporting</h5>
+
+
+                                {{-- <div class="progress progress-success">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ $status[$i]['closed']/$obj->count() * 100 }}%" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div> --}}
+                                {{-- <p class="text-muted">{{ $status[$i]['closed'] }}/{{ $obj->count() }}</p> --}}
+                                <a href="{{ url('/dashboard-renewal/forecast/'. $bulan .'/supp') }}">Detail</a>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
-    @else
-        <p class="text-muted text-center">Tidak ada data pada bulan expired yang dipilih</p>
-    @endif
+
+
+
+
+
+   
 @endsection
