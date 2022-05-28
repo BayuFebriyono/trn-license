@@ -43,7 +43,12 @@ Route::get('/dashboard-renewal/dashboard/list/{bulan}',[RenewalDashboardControll
 
 
 // Forecast
-Route::get('/dashboard-renewal/forecast/{bulan}/{prod}',[RenewalForecast::class,'index']);
+// Route::get('/dashboard-renewal/forecast/{bulan}/{prod}',[RenewalForecast::class,'index']);
+// Forecast Route Breakdown
+Route::get('/dashboard-renewal/forecast/manufacturing/{bulan}',[RenewalForecast::class, 'breakdownSection']);
+Route::get('/dashboard-renewal/forecast/manufacturing/carline/{bulan}/{section}',[RenewalForecast::class, 'breakdownCarline']);
+
+
 Route::get('/dashboard-renewal/forecast/awal',[RenewalForecast::class,'awal']);
 Route::post('/dashboard-renewal/forecast/dept/cek',[RenewalForecast::class,'cekJumlah']);
 Route::get('/dashboard-renewal/forecast/detail/{bulan}/{line}',[RenewalForecast::class,'detail']);

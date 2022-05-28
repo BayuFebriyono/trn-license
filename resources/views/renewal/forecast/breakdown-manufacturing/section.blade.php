@@ -228,61 +228,28 @@
     </style>
     <h3>Pilih Menu Dibawah Ini</h3>
 
-        <div class="row">
-                <div class="col-md-4">
-                    <div class="courses-container">
-                        <div class="course">
-                            <div class="course-preview">
-                                <h6 class="text-white">Total</h6>
-                                <h2 class="text-white">{{ $manufacturing }}</h2>
-                            </div>
-                            <div class="course-info">
-                                <h6>Dept/Sect</h6>
-                                <h5>Manufacturing</h5>
+    <div class="row">
+        @php $i = 0 @endphp
+       @foreach ($employe as $e)
+           
+       <div class="col-md-4">
+           <div class="courses-container">
+               <div class="course">
+                   <div class="course-preview">
+                       <h6 class="text-white">Total</h6>
+                       <h2 class="text-white">{{ $e->count() }}</h2>
+                   </div>
+                   <div class="course-info">
+                       <h6>Dept/Sect</h6>
+                       <h5>{{$keys[$i]}}</h5>
+                       <a href="{{ url('/dashboard-renewal/forecast/manufacturing/carline/'. $bulan.'/'.$keys[$i]) }}">Detail</a>
 
 
-                                {{-- <div class="progress progress-success">
-                                    <div class="progress-bar" role="progressbar" style="width: {{ $status[$i]['closed']/$obj->count() * 100 }}%" aria-valuenow="25"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div> --}}
-                                {{-- <p class="text-muted">{{ $status[$i]['closed'] }}/{{ $obj->count() }}</p> --}}
-                                <a href="{{ url('/dashboard-renewal/forecast/manufacturing/'.$bulan) }}">Detail</a>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="courses-container">
-                        <div class="course">
-                            <div class="course-preview">
-                                <h6 class="text-white">Total</h6>
-                                <h2 class="text-white">{{ $non_manufacturing }}</h2>
-                            </div>
-                            <div class="course-info">
-                                <h6>Dept/Sect</h6>
-                                <h5>Non Manufacturing</h5>
-
-
-                                {{-- <div class="progress progress-success">
-                                    <div class="progress-bar" role="progressbar" style="width: {{ $status[$i]['closed']/$obj->count() * 100 }}%" aria-valuenow="25"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div> --}}
-                                {{-- <p class="text-muted">{{ $status[$i]['closed'] }}/{{ $obj->count() }}</p> --}}
-                                <a href="{{ url('/dashboard-renewal/forecast/breakdown/'.$bulan.'/0/section') }}">Detail</a>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </div>
-
-
-
-
-
-   
+                   </div>
+               </div>
+           </div>
+       </div>
+       @php $i = $i +1 @endphp
+       @endforeach
+    </div>
 @endsection
