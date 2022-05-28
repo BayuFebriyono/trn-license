@@ -377,26 +377,34 @@ class RenewalDashboardController extends Controller
 
                 $nik = $row[0];
                 $nama = $row[1];
-                $line = $row[2];
-                $shift = $row[3];
-                $lokasi = $row[4];
-                $expired = $row[5];
+                $section = $row[2];
+                $carline = $row[3];
+                $carcode = $row[4];
+                $line = $row[5];
+                $shift = $row[6];
+                $lokasi = $row[7];
+                $expired = $row[8];
+                $tanggal_tes = $row[9];
                 $month = date('m', strtotime($expired));
                 // dd($month);
 
                 $karyawan = Employe::create([
                     'nik' => $nik,
                     'nama' => $nama,
+                    'section' => $section,
+                    'carline' => $carline,
+                    'carcode' => $carcode,
                     'line' => $line,
                     'shift' => $shift,
                     'lokasi' => $lokasi,
                     'expired_date' => $expired,
-                    'month_expired' => $month
+                    'month_expired' => $month,
+                    'tanggal_tes' => $tanggal_tes
                 ]);
                 $row = collect($row);
 
                 //    $all_license = explode(', ', $license);
-                for ($i = 6; $i < $row->count(); $i++) {
+                for ($i = 10; $i < $row->count(); $i++) {
                     if (is_null($row[$i])) {
                         continue;
                     }
