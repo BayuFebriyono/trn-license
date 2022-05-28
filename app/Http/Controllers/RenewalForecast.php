@@ -20,21 +20,11 @@ class RenewalForecast extends Controller
     {
         $bulan = $request->bulan;
         $employe = Employe::with('license')->where('month_expired', $bulan)->get();
-
-        $filtered_sup = $employe->filter(function ($value, $key) {
-            return !preg_match('~[0-9]+~', $value->line);
-        });
-
-        $filtered_pro = $employe->filter(function ($value, $key) {
-            return preg_match('~[0-9]+~', $value->line);
-        });
-
-        $filtered_sup = $filtered_sup->groupBy('line')->count();
-        $filtered_pro = $filtered_pro->groupBy('line')->count();
-
-        return view('renewal.forecast.pilih-dept', [
-            'produksi' => $filtered_pro,
-            'supporting' => $filtered_sup,
+       $manufacturing = $employe->whereNotIn('carline',['0'])->groupBy('section')->count();
+       $non = $employe->where('carline',0)->groupBy('section')->count();
+        return view('renewal.forecast.pilih-awal', [
+            'manufacturing' => $manufacturing,
+            'non_manufacturing' => $non,
             'bulan' => $bulan
         ]);
     }

@@ -234,11 +234,11 @@
                         <div class="course">
                             <div class="course-preview">
                                 <h6 class="text-white">Total</h6>
-                                <h2 class="text-white">{{ $produksi }}</h2>
+                                <h2 class="text-white">{{ $manufacturing }}</h2>
                             </div>
                             <div class="course-info">
                                 <h6>Dept/Sect</h6>
-                                <h5>Production</h5>
+                                <h5>Manufacturing</h5>
 
 
                                 {{-- <div class="progress progress-success">
@@ -259,11 +259,11 @@
                         <div class="course">
                             <div class="course-preview">
                                 <h6 class="text-white">Total</h6>
-                                <h2 class="text-white">{{ $supporting }}</h2>
+                                <h2 class="text-white">{{ $non_manufacturing }}</h2>
                             </div>
                             <div class="course-info">
                                 <h6>Dept/Sect</h6>
-                                <h5>Supporting</h5>
+                                <h5>Non Manufacturing</h5>
 
 
                                 {{-- <div class="progress progress-success">

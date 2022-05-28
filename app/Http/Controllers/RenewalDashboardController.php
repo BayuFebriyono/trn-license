@@ -622,7 +622,7 @@ class RenewalDashboardController extends Controller
                 $index_cell = 0;
                 $counter2 = 0;
 
-                for ($j = 24; $j < $license->count(); $j++) {
+                for ($j = 25; $j < $license->count(); $j++) {
                     if (($license[$j]->license == 'IL2' && $license[$j]->tanggal_tes)) {
                         $il2 = true;
                     } else if (is_null($license[$j]->tanggal_tes)) {

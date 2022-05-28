@@ -16,8 +16,9 @@
                                 <th>No.</th>
                                 <th>NIK</th>
                                 <th>Nama</th>
+                                <th>Tanggal Tes</th>
                                 <th>Bulan Expired</th>
-                                <th>Line/Unit Kerja</th>
+                                <th>Section</th>
                                 <th>Shift</th>
                                 <th>Lokasi</th>
                                 <th>License</th>
@@ -31,8 +32,9 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $p->nik }}</td>
                                     <td>{{ $p->nama }}</td>
+                                    <td>{{ $p->tanggal_tes }}</td>
                                     <td>{{ $p->expired_date }}</td>
-                                    <td>{{ $p->line }}</td>
+                                    <td>{{ $p->section }}</td>
                                     <td>{{ $p->shift }}</td>
                                     <td>{{ $p->lokasi }}</td>
                                     <td><a href="{{ url('/dashboard-renewal/list/'. $p->nik) }}" class="btn btn-info">Detail</a></td>
