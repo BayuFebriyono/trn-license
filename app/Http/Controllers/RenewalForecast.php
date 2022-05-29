@@ -44,11 +44,53 @@ class RenewalForecast extends Controller
         });
 
         $keys = $employe->keys();
+        $status = [];
+        $closed = 0;
+        $progress = 0;
+        $jumlah = 0;
+        foreach ($employe as $e) {
+    
+            $closed = 0;
+            $progress = 0;
+            $jumlah = 0;
+    
+            foreach ($e as $a) {
+                foreach($a as $o){
+               
+                    $lcn = collect($o->license);
+                    $jml_ok = $o->license->count();
+                    $ok = 0;
+                    foreach ($lcn as $l) {
+        
+                        if ($l->tanggal_tes) {
+                            $ok++;
+                        }
+                    }
+                    $jumlah++;
+                    if ($jml_ok != $ok) {
+                        $progress++;
+                    } else {
+                        $closed++;
+                    }
+                }
+            }
+    
+            $hasil = [
+                'closed' => $closed,
+                'progress' => $progress,
+                'jumlah' => $jumlah
+            ];
+    
+            array_push($status, $hasil);
+        }
+
+        $status = collect($status);
 
         return view('renewal.forecast.breakdown-manufacturing.section', [
             'employe' => $employe,
             'keys' => $keys,
-            'bulan' => $bulan
+            'bulan' => $bulan,
+            'hasil' => $status
         ]);
     }
 
@@ -67,11 +109,53 @@ class RenewalForecast extends Controller
         session(['section' => $section]);
 
         $keys = $employe->keys();
+        $status = [];
+        $closed = 0;
+        $progress = 0;
+        $jumlah = 0;
+        foreach ($employe as $e) {
+    
+            $closed = 0;
+            $progress = 0;
+            $jumlah = 0;
+    
+            foreach ($e as $a) {
+                foreach($a as $o){
+               
+                    $lcn = collect($o->license);
+                    $jml_ok = $o->license->count();
+                    $ok = 0;
+                    foreach ($lcn as $l) {
+        
+                        if ($l->tanggal_tes) {
+                            $ok++;
+                        }
+                    }
+                    $jumlah++;
+                    if ($jml_ok != $ok) {
+                        $progress++;
+                    } else {
+                        $closed++;
+                    }
+                }
+            }
+    
+            $hasil = [
+                'closed' => $closed,
+                'progress' => $progress,
+                'jumlah' => $jumlah
+            ];
+    
+            array_push($status, $hasil);
+        }
+
+        $status = collect($status);
 
         return view('renewal.forecast.breakdown-manufacturing.carline', [
             'employe' => $employe,
             'keys' => $keys,
-            'bulan' => $bulan
+            'bulan' => $bulan,
+            'hasil' => $status
         ]);
     }
 
@@ -94,10 +178,53 @@ class RenewalForecast extends Controller
 
         $keys = $employe->keys();
 
+        $status = [];
+        $closed = 0;
+        $progress = 0;
+        $jumlah = 0;
+        foreach ($employe as $e) {
+    
+            $closed = 0;
+            $progress = 0;
+            $jumlah = 0;
+    
+            foreach ($e as $a) {
+                foreach($a as $o){
+               
+                    $lcn = collect($o->license);
+                    $jml_ok = $o->license->count();
+                    $ok = 0;
+                    foreach ($lcn as $l) {
+        
+                        if ($l->tanggal_tes) {
+                            $ok++;
+                        }
+                    }
+                    $jumlah++;
+                    if ($jml_ok != $ok) {
+                        $progress++;
+                    } else {
+                        $closed++;
+                    }
+                }
+            }
+    
+            $hasil = [
+                'closed' => $closed,
+                'progress' => $progress,
+                'jumlah' => $jumlah
+            ];
+    
+            array_push($status, $hasil);
+        }
+
+        $status = collect($status);
+
         return view('renewal.forecast.breakdown-manufacturing.carcode', [
             'employe' => $employe,
             'keys' => $keys,
-            'bulan' => $bulan
+            'bulan' => $bulan,
+            'hasil' => $status
         ]);
     }
 
@@ -118,10 +245,53 @@ class RenewalForecast extends Controller
 
         $keys = $employe->keys();
 
+        $status = [];
+        $closed = 0;
+        $progress = 0;
+        $jumlah = 0;
+        foreach ($employe as $e) {
+    
+            $closed = 0;
+            $progress = 0;
+            $jumlah = 0;
+    
+            foreach ($e as $a) {
+                
+               
+                    $lcn = collect($a->license);
+                    $jml_ok = $a->license->count();
+                    $ok = 0;
+                    foreach ($lcn as $l) {
+        
+                        if ($l->tanggal_tes) {
+                            $ok++;
+                        }
+                    }
+                    $jumlah++;
+                    if ($jml_ok != $ok) {
+                        $progress++;
+                    } else {
+                        $closed++;
+                    }
+                
+            }
+    
+            $hasil = [
+                'closed' => $closed,
+                'progress' => $progress,
+                'jumlah' => $jumlah
+            ];
+    
+            array_push($status, $hasil);
+        }
+
+        $status = collect($status);
+
         return view('renewal.forecast.breakdown-manufacturing.line', [
             'employe' => $employe,
             'keys' => $keys,
-            'bulan' => $bulan
+            'bulan' => $bulan,
+            'hasil' => $status
         ]);
     }
 
@@ -155,38 +325,56 @@ class RenewalForecast extends Controller
 
 
         $employe = $employe->where('carline', '0')->groupBy('section');
-        // return $employe;
-
-        // $employe = $employe->map(function ($query) {
-        //     // return $query->groupBy('carline');
-        //     if($query->carcode != '0'){
-        //         return $query->groupBy('carcode');
-        //     }else{
-        //         return $query;
-        //     }
-       
-        // });
-        // $carcode = $employe->filter(function ($query){
-        //     return $query->carcode != '0';
-        // });
-
-        // $employe = $employe->filter(function ($query){
-        //     return $query->carcode == '0';
-        // });
-
-        // $carcode = $carcode->groupBy('section');
-        // $carcode = $carcode->map(function($query){
-        //     return $query->groupBy('carcode');
-        // });
-        // $employe = $employe->groupBy('section');
-
-        // $final = $employe->mergeRecursive($carcode);
+        
         $keys = $employe->keys();
+
+        $status = [];
+        $closed = 0;
+        $progress = 0;
+        $jumlah = 0;
+        foreach ($employe as $e) {
+    
+            $closed = 0;
+            $progress = 0;
+            $jumlah = 0;
+    
+            foreach ($e as $a) {
+                
+               
+                    $lcn = collect($a->license);
+                    $jml_ok = $a->license->count();
+                    $ok = 0;
+                    foreach ($lcn as $l) {
+        
+                        if ($l->tanggal_tes) {
+                            $ok++;
+                        }
+                    }
+                    $jumlah++;
+                    if ($jml_ok != $ok) {
+                        $progress++;
+                    } else {
+                        $closed++;
+                    }
+                
+            }
+    
+            $hasil = [
+                'closed' => $closed,
+                'progress' => $progress,
+                'jumlah' => $jumlah
+            ];
+    
+            array_push($status, $hasil);
+        }
+
+        $status = collect($status);
 
         return view('renewal.forecast.non-manufacturing.pilih', [
             'employe' => $employe,
             'keys' => $keys,
-            'bulan' => $bulan
+            'bulan' => $bulan,
+            'hasil' => $status
         ]);
     }
 

@@ -242,6 +242,12 @@
                         <div class="course-info">
                             <h6>Dept/Sect</h6>
                             <h5>{{ $keys[$i] }}</h5>
+                            <div class="progress progress-success">
+                                <div class="progress-bar" role="progressbar"
+                                    style="width: {{ ($hasil[$i]['closed'] / $hasil[$i]['jumlah']) * 100 }}%" aria-valuenow="{{ ($hasil[$i]['closed'] / $hasil[$i]['jumlah']) * 100 }}"
+                                    aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="text-muted">{{$hasil[$i]['closed']}} / {{$hasil[$i]['jumlah']}}</p>
                             <a
                                 href="{{ url('/dashboard-renewal/forecast/manufacturing/carcode/' . $bulan . '/' . $keys[$i]) }}">Detail</a>
 

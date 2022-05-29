@@ -98,7 +98,7 @@
                     <h3 id="PesertaClosed">{{ $ok }}</h3>
                     <p>Total Peserta Renewal License Closed</p>
                     <p>
-                        <a href="#" id="btn_closed"><u>Detail</u></a>
+                        {{-- <a href="#" id="btn_closed"><u>Detail</u></a> --}}
                     </p>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                     <h3 id="PesertaProgress">{{ $progress->count() }}</h3>
                     <p>Total Peserta Renewal License Progress</p>
                     <p>
-                        <a href="#" id="btn_progress"><u>Detail</u></a>
+                        {{-- <a href="#" id="btn_progress"><u>Detail</u></a> --}}
                     </p>
                 </div>
             </div>
@@ -116,7 +116,7 @@
                     <h3 id="Peserta">0</h3>
                     <p >Total Peserta Renewal License</p>
                     <p>
-                        <a href="#" id="btn_peserta"><u>Detail</u></a>
+                        {{-- <a href="#" id="btn_peserta"><u>Detail</u></a> --}}
                     </p>
                 </div>
             </div>
@@ -258,22 +258,22 @@
                 
             });
 
-            $('#btn_closed').on('click', function(){
-                let link = "{{ url('/dashboard-renewal/dashboard/closed') }}" + "/" + bulan;
+            // $('#btn_closed').on('click', function(){
+            //     let link = "{{ url('/dashboard-renewal/dashboard/closed') }}" + "/" + bulan;
 
-                window.location.href = link;
-            });
-            $('#btn_peserta').on('click', function(){
-                let link = "{{ url('/dashboard-renewal/dashboard/list') }}" + "/" + bulan;
+            //     window.location.href = link;
+            // });
+            // $('#btn_peserta').on('click', function(){
+            //     let link = "{{ url('/dashboard-renewal/dashboard/list') }}" + "/" + bulan;
 
-                window.location.href = link;
-            });
+            //     window.location.href = link;
+            // });
 
-            $('#btn_progress').on('click', function(){
-                let link = "{{ url('/dashboard-renewal/dashboard/progress') }}" + "/" + bulan;
+            // $('#btn_progress').on('click', function(){
+            //     let link = "{{ url('/dashboard-renewal/dashboard/progress') }}" + "/" + bulan;
 
-                window.location.href = link;
-            });
+            //     window.location.href = link;
+            // });
 
             function cek() {
 
