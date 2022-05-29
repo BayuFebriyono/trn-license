@@ -271,7 +271,7 @@
                                         aria-valuemin="0" aria-valuemax="100"></div>
                                 </div> --}}
                                 {{-- <p class="text-muted">{{ $status[$i]['closed'] }}/{{ $obj->count() }}</p> --}}
-                                <a href="{{ url('/dashboard-renewal/forecast/breakdown/'.$bulan.'/0/section') }}">Detail</a>
+                                <a href="{{ url('/dashboard-renewal/forecast/non-manufacturing/'. $bulan) }}">Detail</a>
 
 
                             </div>

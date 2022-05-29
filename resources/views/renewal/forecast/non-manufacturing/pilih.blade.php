@@ -227,30 +227,35 @@
 
     </style>
     <h3>Pilih Menu Dibawah Ini</h3>
-
-
+    @if ($employe->count())
     <div class="row">
         @php $i = 0 @endphp
-        @foreach ($employe as $e)
-            <div class="col-md-4">
-                <div class="courses-container">
-                    <div class="course">
-                        <div class="course-preview">
-                            <h6 class="text-white">Total</h6>
-                            <h2 class="text-white">{{ $e->count() }}</h2>
-                        </div>
-                        <div class="course-info">
-                            <h6>Dept/Sect</h6>
-                            <h5>{{ $keys[$i] }}</h5>
-                            <a
-                                href="{{ url('/dashboard-renewal/forecast/manufacturing/carcode/' . $bulan . '/' . $keys[$i]) }}">Detail</a>
+       @foreach ($employe as $e)
+           
+       <div class="col-md-4">
+           <div class="courses-container">
+               <div class="course">
+                   <div class="course-preview">
+                       <h6 class="text-white">Total</h6>
+                       <h2 class="text-white">{{ $e->count() }}</h2>
+                   </div>
+                   <div class="course-info">
+                       <h6>Dept/Sect</h6>
+                       <h5>{{$keys[$i]}}</h5>
+                       <a href="{{ url('/dashboard-renewal/forecast/non-manufacturing/list/'.$bulan.'/' . $keys[$i])}}">Detail</a>
 
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @php $i = $i +1 @endphp
-        @endforeach
+                   </div>
+               </div>
+           </div>
+       </div>
+       @php $i = $i +1 @endphp
+       @endforeach
+       
     </div>
+    @else
+        <div class="text-center">
+            <p class="text-muted">Tidak Ada Data</p>
+        </div>
+    @endif
 @endsection

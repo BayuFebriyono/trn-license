@@ -148,9 +148,57 @@ class RenewalForecast extends Controller
     }
 
 
-    //Rencana Controller Akan dipisah antara breakdown manufacturing dan non manufacturing
-    public function breakdownNon()
+//  Breakdown Non Manufacturing
+    public function breakdownNon($bulan)
     {
+        $employe = Employe::where('month_expired', $bulan)->get();
+
+
+        $employe = $employe->where('carline', '0')->groupBy('section');
+        // return $employe;
+
+        // $employe = $employe->map(function ($query) {
+        //     // return $query->groupBy('carline');
+        //     if($query->carcode != '0'){
+        //         return $query->groupBy('carcode');
+        //     }else{
+        //         return $query;
+        //     }
+       
+        // });
+        // $carcode = $employe->filter(function ($query){
+        //     return $query->carcode != '0';
+        // });
+
+        // $employe = $employe->filter(function ($query){
+        //     return $query->carcode == '0';
+        // });
+
+        // $carcode = $carcode->groupBy('section');
+        // $carcode = $carcode->map(function($query){
+        //     return $query->groupBy('carcode');
+        // });
+        // $employe = $employe->groupBy('section');
+
+        // $final = $employe->mergeRecursive($carcode);
+        $keys = $employe->keys();
+
+        return view('renewal.forecast.non-manufacturing.pilih', [
+            'employe' => $employe,
+            'keys' => $keys,
+            'bulan' => $bulan
+        ]);
+    }
+
+    public function breakdownNonList($bulan,$section){
+        $employe = Employe::where('month_expired', $bulan)
+        ->where('section', $section)
+        ->where('carline', '0')
+        ->get();
+
+        return view('renewal.forecast.non-manufacturing.list',[
+            'peserta' => $employe
+        ]);
     }
 
     public function index(Request $request, $bulan, $prod)
