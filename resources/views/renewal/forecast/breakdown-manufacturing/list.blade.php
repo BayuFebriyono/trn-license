@@ -4,10 +4,10 @@
     <div class="text-center">
         <h4 class="mb-4">List Peserta Renewal License</h4>
         <h5 class="mt-3">Expired
-            5-{{ date('F', mktime(0, 0, 0, $peserta[0]->month_expired - 1, 10)) }}-{{ date('y', strtotime($peserta[0]->expired_date)) }}
+            {{ date("d-m-Y", strtotime($expired->last_date)) }}
         </h5>
 
-        <h2 class="mt-3 mb-4"><b id="jam">00:00:00:00</b></h2>
+        <h4 class="mt-3 mb-4"><b id="jam">00:00:00:00</b></h4>
     </div>
 
 
@@ -73,9 +73,10 @@
 
     <script>
         let lbJam = document.getElementById('jam');
-        let bulan ='{{ date('F', mktime(0, 0, 0, $peserta[0]->month_expired - 1, 10)) }}';
-        let year = '{{ date('y', strtotime($peserta[0]->expired_date)) }}';
-        let tanggal = bulan + ' 5, '+year+ ' 00:00:00';
+        let bulan ='{{ date('F', strtotime($expired->last_date)) }}';
+        let year = '{{ date('y', strtotime($expired->last_date)) }}';
+        let date =  '{{ date('d', strtotime($expired->last_date)) }}';
+        let tanggal = bulan + date+' , '+year+ ' 00:00:00';
         var countDownDate = new Date(tanggal).getTime();
 
         var myfunc = setInterval(function() {
@@ -96,7 +97,7 @@
 
 
             // console.log(days + ':' + hours + ':' + minutes + ':' + seconds);
-            lbJam.innerHTML = days + ':' + hours + ':' + minutes + ':' + seconds;
+            lbJam.innerHTML = days + ' Days : ' + hours + ' Hours : ' + minutes + ' Minutes : ' + seconds + ' Seconds';
         }, 1000)
         myfunc;
     </script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Employe;
+use App\Models\Expired;
 use App\Models\License;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,10 +53,11 @@ class RenewalDashboardController extends Controller
     {
         $bulan = $request->bulan;
 
+        $expired = Expired::where('month_expired', $bulan)->delete();
         $license = License::where('month_expired', $bulan)->delete();
         $employe = Employe::where('month_expired', $bulan)->delete();
 
-        if ($license && $employe) {
+        if ($license && $employe && $expired) {
             return redirect()->back()->with('success', 'Data Berhasil Dihapus');
         } else {
             return redirect()->back()->with('error', 'Tidak Ada Data Yang Dihapus');
@@ -372,6 +374,16 @@ class RenewalDashboardController extends Controller
         if (in_array($file_extension, $allowed_ext)) {
             $inputFileNamePath = $request->file('excel')->getPathname();
             $spreadshet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileNamePath);
+
+            // Isi Expired
+            $bulan_expired = $spreadshet->getActiveSheet()->getCell('B1')->getValue();
+            $tanggal_terakhir = $spreadshet->getActiveSheet()->getCell('B2')->getValue();
+            Expired::create([
+                'last_date' => $tanggal_terakhir,
+                'month_expired' => $bulan_expired
+            ]);
+
+            // Looping Isi DB License
             $data = $spreadshet->getActiveSheet()->removeRow(1, 4)->toArray();
             foreach ($data as $row) {
 

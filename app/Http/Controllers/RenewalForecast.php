@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employe;
+use App\Models\Expired;
 use Illuminate\Http\Request;
 
 class RenewalForecast extends Controller
@@ -306,14 +307,14 @@ class RenewalForecast extends Controller
         ->get();
 
 
+        $expired = Expired::where('month_expired', $bulan)->first();
         $employe = $employe->whereNotIn('carline', ['0']);
 
 
 
-    //    return $employe;
-
         return view('renewal.forecast.breakdown-manufacturing.list', [
             'peserta' => $employe,
+            'expired' => $expired
         ]);
     }
 
@@ -384,8 +385,11 @@ class RenewalForecast extends Controller
         ->where('carline', '0')
         ->get();
 
+        $expired = Expired::where('month_expired', $bulan)->first();
+
         return view('renewal.forecast.non-manufacturing.list',[
-            'peserta' => $employe
+            'peserta' => $employe,
+            'expired' => $expired
         ]);
     }
 
