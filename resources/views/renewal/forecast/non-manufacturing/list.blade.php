@@ -61,6 +61,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <p class="text-muted mt-5">Note : Data - Data tersebut merupakan data cut off per {{ $expired->created_at }}</p>
                 </div>
             </div>
 
