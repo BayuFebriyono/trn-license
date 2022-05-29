@@ -242,7 +242,7 @@
                    <div class="course-info">
                        <h6>Dept/Sect</h6>
                        <h5>{{$keys[$i]}}</h5>
-                       <a href="{{ url('/dashboard-renewal/forecast/' . $bulan . '/prod') }}">Detail</a>
+                       <a href="{{ url('/dashboard-renewal/forecast/manufacturing/carcode/'. $bulan.'/'.$keys[$i]) }}">Detail</a>
 
 
                    </div>

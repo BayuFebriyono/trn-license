@@ -52,7 +52,7 @@ class RenewalForecast extends Controller
         ]);
     }
 
-    // Breakdown Carcode
+    // Breakdown Carline
     public function breakdownCarline($bulan,$section)
     {
         $employe = Employe::where('month_expired', $bulan)->where('section', $section)->get();
@@ -64,6 +64,8 @@ class RenewalForecast extends Controller
             return $query->groupBy('carcode');
         });
 
+        session(['section' => $section]);
+
         $keys = $employe->keys();
 
         return view('renewal.forecast.breakdown-manufacturing.carline', [
@@ -72,6 +74,79 @@ class RenewalForecast extends Controller
             'bulan' => $bulan
         ]);
     }
+
+    // Breakdown Carcode
+    public function breakdownCarcode($bulan,$carline)
+    {
+        $employe = Employe::where('month_expired', $bulan)
+        ->where('section', session('section'))
+        ->where('carline', $carline)
+        ->get();
+
+
+        $employe = $employe->whereNotIn('carline', ['0'])->groupBy('carcode');
+
+        $employe = $employe->map(function ($query) {
+            return $query->groupBy('line');
+        });
+
+        session(['carline' => $carline]);
+
+        $keys = $employe->keys();
+
+        return view('renewal.forecast.breakdown-manufacturing.carcode', [
+            'employe' => $employe,
+            'keys' => $keys,
+            'bulan' => $bulan
+        ]);
+    }
+
+    // Breakdown Line
+    public function breakdownLine($bulan,$carcode)
+    {
+        $employe = Employe::where('month_expired', $bulan)
+        ->where('section', session('section'))
+        ->where('carline', session('carline'))
+        ->where('carcode', $carcode)
+        ->get();
+
+
+        $employe = $employe->whereNotIn('carline', ['0'])->groupBy('line');
+
+
+        session(['carcode' => $carcode]);
+
+        $keys = $employe->keys();
+
+        return view('renewal.forecast.breakdown-manufacturing.line', [
+            'employe' => $employe,
+            'keys' => $keys,
+            'bulan' => $bulan
+        ]);
+    }
+
+    // Breakdown Per Peserta
+    public function breakdownPeserta($bulan,$line)
+    {
+        $employe = Employe::where('month_expired', $bulan)
+        ->where('section', session('section'))
+        ->where('carline', session('carline'))
+        ->where('carcode', session('carcode'))
+        ->where('line',$line)
+        ->get();
+
+
+        $employe = $employe->whereNotIn('carline', ['0']);
+
+
+
+    //    return $employe;
+
+        return view('renewal.forecast.breakdown-manufacturing.list', [
+            'peserta' => $employe,
+        ]);
+    }
+
 
     //Rencana Controller Akan dipisah antara breakdown manufacturing dan non manufacturing
     public function breakdownNon()
